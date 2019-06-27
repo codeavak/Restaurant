@@ -1,0 +1,125 @@
+###################
+# compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.pdb
+*.dll.config
+*.cache
+*.suo
+# Include dlls if they’re in the NuGet packages directory
+!/packages/*/lib/*.dll
+!/packages/*/lib/*/*.dll
+# Include dlls if they're in the CommonReferences directory
+!*CommonReferences/*.dll
+####################
+# VS Upgrade stuff #
+####################
+UpgradeLog.XML
+_UpgradeReport_Files/
+###############
+# Directories #
+###############
+bin/
+obj/
+TestResults/
+###################
+# Web publish log #
+###################
+*.Publish.xml
+#############
+# Resharper #
+#############
+/_ReSharper.*
+*.ReSharper.*
+############
+# Packages #
+############
+# it’s better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+######################
+# Logs and databases #
+######################
+*.log
+*.sqlite
+# OS generated files #
+######################
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+[Bb]in
+[Oo]bj
+[Tt]est[Rr]esults
+*.suo
+*.user
+*.[Cc]ache
+*[Rr]esharper*
+packages
+NuGet.exe
+_[Ss]cripts
+*.exe
+*.dll
+*.nupkg
+*.ncrunchsolution
+*.dot[Cc]over
+
+
+#angular8
+
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+angular8/dist
+angular8/tmp
+/out-tsc
+# Only exists if Bazel was run
+angular8/bazel-out
+
+# dependencies
+angular8/node_modules
+
+# profiling files
+angular8/chrome-profiler-events.json
+angular8/speed-measure-plugin.json
+
+# IDEs and editors
+angular8/.idea
+angular8/.project
+angular8/.classpath
+angular8/.c9/
+angular8/*.launch
+angular8/.settings/
+angular8/*.sublime-workspace
+
+# IDE - VSCode
+angular8/.vscode/*
+angular8/!.vscode/settings.json
+angular8/!.vscode/tasks.json
+angular8/!.vscode/launch.json
+angular8/!.vscode/extensions.json
+angular8/.history/*
+
+# misc
+angular8/.sass-cache
+angular8/connect.lock
+angular8/coverage
+angular8/libpeerconnection.log
+angular8/npm-debug.log
+angular8/yarn-error.log
+angular8/testem.log
+angular8/typings
+
+# System Files
+angular8/.DS_Store
+angular8/Thumbs.db
