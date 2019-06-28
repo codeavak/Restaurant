@@ -12,6 +12,8 @@ namespace MasterDetail.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class RestaurantDBEntities : DbContext
     {
@@ -29,6 +31,11 @@ namespace MasterDetail.Models
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderItem> OrderItems { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<OrderNo> OrderNoes { get; set; }
+    
+        public virtual ObjectResult<Nullable<System.Guid>> generate_guid()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<System.Guid>>("generate_guid");
+        }
     }
 }

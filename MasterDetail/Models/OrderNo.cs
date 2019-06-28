@@ -12,12 +12,8 @@ namespace MasterDetail.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagram
+    public partial class OrderNo
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public System.Guid Guid { get; set; }
     }
 }

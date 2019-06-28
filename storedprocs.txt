@@ -1,0 +1,27 @@
+CREATE PROCEDURE [dbo].[Generate_guid] 
+AS 
+  BEGIN 
+      SET nocount ON; 
+
+      DECLARE @newguid AS UNIQUEIDENTIFIER 
+      DECLARE @startTime DATETIME2(0) = Getdate(); 
+
+      -- This will loop until BREAK is called, or until a timeout of 45 seconds. 
+      WHILE ( Getdate() < Dateadd(second, 45, @startTime) ) 
+        BEGIN 
+            IF NOT EXISTS (SELECT 1 
+                           FROM   orderno 
+                           WHERE  guid = @newguid) 
+              BEGIN 
+                  SELECT @newguid = Newid() 
+
+                  INSERT INTO orderno 
+                              (guid) 
+                  VALUES      (@newguid) 
+
+                  SELECT @newguid AS guid 
+
+                  BREAK 
+              END 
+        END 
+  END 
