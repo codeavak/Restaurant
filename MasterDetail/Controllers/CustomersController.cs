@@ -13,22 +13,10 @@ using MasterDetail.Models;
 using MasterDetail.Resources;
 
 namespace MasterDetail.Controllers
-{[RoutePrefix("customers")]
+{[RoutePrefix("api/customers")]
     public class CustomersController : ApiController
     {
         private RestaurantDBEntities db = new RestaurantDBEntities();
-
-        [Route("guid")]
-        [HttpGet]
-        public IHttpActionResult GetGuid()
-        {
-            var newid = db.generate_guid().FirstOrDefault();
-            if (newid != null)
-                return Ok(newid);
-            else return BadRequest("Not valid GUID");
-
-        }
-
 
         // GET: api/Customers
         [Route("")]

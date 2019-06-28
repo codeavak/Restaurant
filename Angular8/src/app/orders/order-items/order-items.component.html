@@ -1,1 +1,150 @@
-<p>order-items works!</p>
+<div class="table-responsive">
+  <table class="table table-hover table-condensed">
+    <thead>
+      <th>Food</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Total</th>
+
+      <th>
+        <button class="btn btn-success btn-sm" (click)="openModal(item)">Add new</button>
+        <button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#myModal">
+          Open Modal
+        </button>
+      </th>
+    </thead>
+
+    <tbody>
+<tr *ngFor="let selectedItem of SelectedItems; let i=index">
+  <td>{{selectedItem.Name}}</td>
+<td>{{selectedItem.Price|currency}}</td>
+<td>{{selectedItem.Quantity}}</td>
+<td>{{selectedItem.Total|currency}}</td>
+<td><button class="btn btn-sm btn-error" (click)="deleteItem(i)">Delete</button></td>
+
+  </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<p *ngIf="SelectedItems.length==0" style="font-style:italic" class="text-center">
+  No items to display
+</p>
+
+<h1>Grand Total: {{GrandTotal|currency}}</h1>
+
+<div id="myModal" class="modal" tabindex="-1" role="dialog">
+  <div class="container-fluid">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Restaurant App: Add food item to order</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form ngForm #item="ngForm" (ngSubmit)="submitItem(item)">
+            <div class="row">
+              <div class="col-md-12">
+                <label for="Item">Item:</label>
+                <select
+                  class="form-control"
+                  id="Item"
+                  name="Item"
+                  ngModel
+                  #Item="ngModel"
+                  (change)="onSelect(Item)"
+                >
+                  <option value="" hidden disabled selected="selected"
+                    >Please select one...</option
+                  >
+                  <option *ngFor="let item of Items" [ngValue]="item">{{
+                    item.Name
+                  }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="Total">Price:</label>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                  </div>
+                  <input
+                    disabled
+                    type="text"
+                    class="form-control"
+                    aria-label="Amount (to the nearest dollar)"
+                    [(ngModel)]="SelectedItemPrice"
+                    id="Price"
+                    name="Price"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="Total">Quantity:</label>
+                <div class="input-group mb-3">
+                  <input (keyup)="onKeyup()"
+                    type="text"
+                    class="form-control"
+                    aria-label="Amount (to the nearest dollar)"
+                    [(ngModel)]="Quantity"
+                    id="Quantity"
+                    name="Quantity"
+
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <label for="Total">Grand Total:</label>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                  </div>
+                  <input
+                    disabled
+                    type="text"
+                    class="form-control"
+                    aria-label="Amount (to the nearest dollar)"
+                    [(ngModel)]="Total"
+                    id="Total"
+                    name="Total"
+
+                  />
+                </div>
+              </div>
+            </div>
+
+
+        <div class="modal-footer  justify-content-between">
+          <div class="w-100">
+            <button class="btn btn-primary mr-auto">
+                <i class="fa fa-database"></i> Submit
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary mr-auto"
+              data-dismiss="modal"
+            >
+            <i class="fa fa-times"></i>Close
+            </button>
+            {{ item.value | json }}
+          </div>
+        </div>
+
+      </form>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>

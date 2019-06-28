@@ -1,1 +1,42 @@
-<p>order works!</p>
+<form ngForm #form="ngForm">
+    <div class="row">
+    <div class="col-md-6">
+      <label for="Orderno">Order Number:</label>
+      <input disabled class="form-control" name="Orderno" id="Orderno" [value]='Orderno' />
+    </div>
+    <div class="col-md-6">
+        <label for="Customer">Customer:</label>
+      <select class="form-control" id="Customer" name="Customer" ngModel #Customer='ngModel'>
+        <option value="" hidden disabled selected="selected">Please select one...</option>
+        <option *ngFor="let customer of Customers" [ngValue]='customer'>{{customer.Name}}</option>
+    </select>
+    </div>
+    </div>
+
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <label for="Payment">Payment Method:</label>
+          <select class="form-control" id="Payment" name="Payment" ngModel #Payment='ngModel'>
+            <option value="" hidden disabled selected="selected">Please select one...</option>
+            <option value='0'>Cash</option>
+            <option alue='1'>Card</option>
+        </select>
+      </div>
+        <div class="col-md-6">
+            <label for="Total">Grand Total:</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input name="GrandTotal" id="GrandTotal" [ngModel]="GrandTotal|number:'1.2-2'"
+                (ngModelChange)="GrandTotal=($event)"
+                disabled type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+              </div>
+        </div>
+    </div>
+
+    </form>
+<app-order-items (GrandTotalChanged)="RefreshGrandTotal($event)"></app-order-items>
+    {{form.value|json}}
+Order count: {{this.OrderCount}} <button class="btn btn-sm btn-success" (click)="IncreaseCount()">+Add</button>
