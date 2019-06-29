@@ -2,6 +2,9 @@ import { Component, OnInit,Output, EventEmitter } from '@angular/core';
 import { ItemService } from 'src/app/services/item.service';
 import { Item } from 'src/app/models/item';
 import { OrderService } from 'src/app/services/order.service';
+declare var $: any;
+
+
 
 @Component({
   selector: 'app-order-items',
@@ -10,11 +13,13 @@ import { OrderService } from 'src/app/services/order.service';
 })
 export class OrderItemsComponent implements OnInit {
 Items:Item[];
+SelectedItem:Item;
 SelectedItems:any[]=[];
 SelectedItemPrice:number=0;
 Quantity:number=0;
 Total:number=0;
 GrandTotal:number=0;
+
 
 @Output() GrandTotalChanged=new EventEmitter();
 
@@ -25,14 +30,14 @@ GrandTotal:number=0;
     this.service.GetItems().subscribe(succ=>this.Items=succ,err=>console.log(err));
   }
 
-  onSelect=(model)=>{this.SelectedItemPrice=model.value.Price;
-  this.Total=parseInt(this.Quantity)*parseFloat(this.SelectedItemPrice);
+  onSelect=(model)=>{this.SelectedItemPrice=model.Price;
+  this.Total=this.Quantity*this.SelectedItemPrice;
 
   if(!this.Total){this.Total=0;}
   console.log(this.Total);
   }
 onKeyup=()=>{
-  this.Total=parseInt(this.Quantity)*parseFloat(this.SelectedItemPrice);
+  this.Total=this.Quantity*this.SelectedItemPrice;
   if(!this.Total){this.Total=0;}
   console.log(this.Total);}
 
@@ -48,14 +53,39 @@ submitItem=(item)=>{
   select.Quantity=item.value.Quantity;
   select.Total=item.controls['Total'].value;
   this.SelectedItems.push(select);
-this.GrandTotal+=parseFloat(select.Total);
-this.GrandTotalChanged.emit(this.GrandTotal);
+this.GrandTotal+=select.Total;
+this.GrandTotalChanged.emit({'GrandTotal':this.GrandTotal,'Items':this.SelectedItems});
 item.reset();
 $('#myModal').modal('hide');
 }
 }
 
+
+editItem=(i)=>
+{
+
+  this.GrandTotal-=this.SelectedItems[i].Total;
+  this.SelectedItem=this.SelectedItems[i];
+  this.SelectedItemPrice=this.SelectedItems[i].Price;
+  this.Quantity=this.SelectedItems[i].Quantity;
+  this.Total=this.Quantity*this.SelectedItemPrice;
+  $('#myModal').modal('show');
+
+  this.SelectedItems.splice(i,1);
+  this.GrandTotalChanged.emit({'GrandTotal':this.GrandTotal,'Items':this.SelectedItems});
+
+  
+
+}
+
 deleteItem=(i)=>
-{if(confirm("Are you sure you want to delete this item?"))this.SelectedItems.splice(i,1);}
+{if(confirm("Are you sure you want to delete this item?")){
+  this.GrandTotal-=this.SelectedItems[i].Total;
+  this.SelectedItems.splice(i,1);
+  this.GrandTotalChanged.emit({'GrandTotal':this.GrandTotal,'Items':this.SelectedItems});
+}
+
+}
+
 
 }

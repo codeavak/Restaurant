@@ -7,8 +7,8 @@
       <th>Total</th>
 
       <th>
-        <button class="btn btn-success btn-sm" (click)="openModal(item)">Add new</button>
-        <button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#myModal">
+        <button type="button" class="btn btn-success btn-sm" (click)="openModal(item)"><i class="fa fa-plus"></i>Add new</button>
+        <button type="button" id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#myModal">
           Open Modal
         </button>
       </th>
@@ -20,7 +20,10 @@
 <td>{{selectedItem.Price|currency}}</td>
 <td>{{selectedItem.Quantity}}</td>
 <td>{{selectedItem.Total|currency}}</td>
-<td><button class="btn btn-sm btn-error" (click)="deleteItem(i)">Delete</button></td>
+<td>
+    <button class="btn btn-sm btn-primary" (click)="editItem(i)"><i class="fa fa-pencil"></i></button>
+  <button class="btn btn-sm btn-danger" (click)="deleteItem(i)"><i class="fa fa-trash"></i></button>
+  </td>
 
   </tr>
 
@@ -58,9 +61,9 @@
                   class="form-control"
                   id="Item"
                   name="Item"
-                  ngModel
-                  #Item="ngModel"
-                  (change)="onSelect(Item)"
+                  [(ngModel)]="SelectedItem"
+                  
+                  (change)="onSelect(SelectedItem)"
                 >
                   <option value="" hidden disabled selected="selected"
                     >Please select one...</option
@@ -128,12 +131,12 @@
 
         <div class="modal-footer  justify-content-between">
           <div class="w-100">
-            <button class="btn btn-primary mr-auto">
-                <i class="fa fa-database"></i> Submit
+            <button class="btn btn-dark mr-auto">
+                <i class="fa fa-plus"></i> Add to Order
             </button>
             <button
               type="button"
-              class="btn btn-secondary mr-auto"
+              class="btn btn-light mr-auto"
               data-dismiss="modal"
             >
             <i class="fa fa-times"></i>Close

@@ -15,4 +15,8 @@ ItemCount:number=0;
 
   GetItems = ()=> this.http.get<Item[]>('http://localhost:62625/api/items')
   IncreaseCount=()=>this.ItemCount++;
+
+  PostOrder= (newOrder)=>this.http.post('http://localhost:62625/api/orders',newOrder)
+
+  GetOrders=()=>this.http.get<any[]>('http://localhost:62625/api/orders')
 }

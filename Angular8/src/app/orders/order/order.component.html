@@ -1,4 +1,4 @@
-<form ngForm #form="ngForm">
+<form ngForm #form="ngForm" (ngSubmit)="submitForm(form)">
     <div class="row">
     <div class="col-md-6">
       <label for="Orderno">Order Number:</label>
@@ -19,8 +19,8 @@
             <label for="Payment">Payment Method:</label>
           <select class="form-control" id="Payment" name="Payment" ngModel #Payment='ngModel'>
             <option value="" hidden disabled selected="selected">Please select one...</option>
-            <option value='0'>Cash</option>
-            <option alue='1'>Card</option>
+            <option value='Cash'>Cash</option>
+            <option alue='Card'>Card</option>
         </select>
       </div>
         <div class="col-md-6">
@@ -36,7 +36,18 @@
         </div>
     </div>
 
-    </form>
 <app-order-items (GrandTotalChanged)="RefreshGrandTotal($event)"></app-order-items>
+
+
+<div class="w-100">
+  <button class="btn btn-dark mr-auto">
+      <i class="fa fa-database"></i>Place Order
+  </button>
+  <button class="btn btn-light mr-auto" (click)='navigateToOrders($event)'>
+    <i class="fa fa-eye"></i>View All Orders
+</button>
+  
+</div>
+</form>
     {{form.value|json}}
-Order count: {{this.OrderCount}} <button class="btn btn-sm btn-success" (click)="IncreaseCount()">+Add</button>
+
