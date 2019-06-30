@@ -1,4 +1,4 @@
-import { Component, OnInit,Output, EventEmitter } from '@angular/core';
+import { Component, OnInit,Output, EventEmitter, Input } from '@angular/core';
 import { ItemService } from 'src/app/services/item.service';
 import { Item } from 'src/app/models/item';
 import { OrderService } from 'src/app/services/order.service';
@@ -19,7 +19,7 @@ SelectedItemPrice:number=0;
 Quantity:number=0;
 Total:number=0;
 GrandTotal:number=0;
-
+@Input() ExistingOrderItems?:any[];
 
 @Output() GrandTotalChanged=new EventEmitter();
 
@@ -27,7 +27,21 @@ GrandTotal:number=0;
 
   ngOnInit() {
 
-    this.service.GetItems().subscribe(succ=>this.Items=succ,err=>console.log(err));
+    if(this.ExistingOrderItems){
+      console.log("logging the existing items of the order")
+      console.log(this.ExistingOrderItems);
+      this.SelectedItems=this.ExistingOrderItems;
+    }
+
+    this.service.GetItems().subscribe(succ=>{this.Items=succ;
+    this.SelectedItems.forEach(x=>{
+      let item=this.Items.find(x=>x.ItemID==x.ItemID);
+      x.Name=item.Name;
+      x.Price=item.Price;
+      x.Total=x.Price*x.Quantity;
+    })
+    
+    },err=>console.log(err));
   }
 
   onSelect=(model)=>{this.SelectedItemPrice=model.Price;

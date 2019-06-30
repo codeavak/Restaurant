@@ -16,7 +16,7 @@ namespace MasterDetail.Resources
         public string PMethod { get; set; }
         public Nullable<decimal> GTotal { get; set; }
         public virtual CustomerResource Customer { get; set; }
+        public IEnumerable<OrderItemResource> OrderItems { get; set; }
 
-  
     }
 }

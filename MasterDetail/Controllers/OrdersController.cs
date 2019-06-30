@@ -28,22 +28,42 @@ namespace MasterDetail.Controllers
                   OrderID=i.OrderID,
                    OrderNo=i.OrderNo,
                     PMethod=i.PMethod,
-                    Customer=new CustomerResource { CustomerID=i.Customer.CustomerID,Name=i.Customer.Name}
+                    Customer=new CustomerResource { CustomerID=i.Customer.CustomerID,Name=i.Customer.Name},
+                    OrderItems= i.OrderItems.Select(j=>new OrderItemResource { ItemID=j.ItemID, Quantity=j.Quantity})
+
                    
             });
         }
 
         // GET: api/Orders/5
-        [ResponseType(typeof(Order))]
+        [ResponseType(typeof(OrderResource))]
         public IHttpActionResult GetOrder(long id)
         {
             Order order = db.Orders.Find(id);
+
+            
             if (order == null)
             {
                 return NotFound();
             }
 
-            return Ok(order);
+
+           var orderResource= new OrderResource
+            {
+
+
+                CustomerID = order.CustomerID,
+                GTotal = order.GTotal,
+                OrderID = order.OrderID,
+                OrderNo = order.OrderNo,
+                PMethod = order.PMethod,
+                Customer = new CustomerResource { CustomerID = order.Customer.CustomerID, Name = order.Customer.Name },
+                OrderItems = order.OrderItems.Select(j => new OrderItemResource { ItemID = j.ItemID, Quantity = j.Quantity })
+
+
+            };
+
+            return Ok(orderResource);
         }
 
         // PUT: api/Orders/5
@@ -110,15 +130,31 @@ namespace MasterDetail.Controllers
         public IHttpActionResult DeleteOrder(long id)
         {
             Order order = db.Orders.Find(id);
+
             if (order == null)
             {
                 return NotFound();
             }
-
+            var orderResource = new OrderResource
+            {
+                CustomerID = order.CustomerID,
+                GTotal = order.GTotal,
+                OrderID = order.OrderID,
+                OrderNo = order.OrderNo,
+                PMethod = order.PMethod,
+                Customer = new CustomerResource { CustomerID = order.Customer.CustomerID, Name = order.Customer.Name },
+                OrderItems = order.OrderItems.Select(j => new OrderItemResource { ItemID = j.ItemID, Quantity = j.Quantity })
+            };
+            var Items = db.OrderItems.Where(i => i.OrderID == order.OrderID).ToList<OrderItem>();
+           foreach(var i in Items)
+            {
+                db.OrderItems.Remove(i);
+            }
+            
             db.Orders.Remove(order);
             db.SaveChanges();
-
-            return Ok(order);
+   
+            return Ok(orderResource);
         }
 
         protected override void Dispose(bool disposing)

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Customer } from 'src/app/models/customer';
 import { OrderService } from 'src/app/services/order.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -15,19 +15,43 @@ Customers:Customer[];
 Orderno:string;
 OrderCount:number;
 OrderItems:any[];
-  constructor(private service:OrderService,private router:Router ) {
+SelectedCustomer:any;
+SelectedPMethod:any;
+ExistingItems:any[]=null;
+  constructor(private service:OrderService,private router:Router, private route:ActivatedRoute) {
 
    }
 
   ngOnInit() {
+    let id;
+    this.route.paramMap.subscribe(params=>id=params.get('id'));
+
+if(id)
+{console.log("gotto fetch the order now");
+this.service.GetCustomers().subscribe( succ=>{console.log("got all customers");this.Customers=succ;
+
+  this.service.GetOrder(id).subscribe(succ=>{console.log(succ);
+  
+  this.SelectedCustomer=succ.CustomerID;
+  this.SelectedPMethod=succ.PMethod;
+  this.Orderno=succ.OrderNo;
+  this.GrandTotal=succ.GTotal;
+  this.ExistingItems=succ.OrderItems;
+  console.log(this.Customers);
+  console.log(this.SelectedCustomer);
+},err=>console.log(err));
+},err=>console.log(err));
 
 
+}else
+    {this.ExistingItems=[];
 this.OrderCount=this.service.ItemCount;
     console.log("in component");
 
      this.service.GetCustomers().subscribe( succ=>{console.log(succ);this.Customers=succ;},err=>console.log(err));
 
      this.service.GetOrderNo().subscribe((succ)=>{console.log('successfully fetched order number');this.Orderno=succ;}, err=>console.log(err));
+  }
   }
   IncreaseCount=()=>{this.service.IncreaseCount();this.OrderCount=this.service.ItemCount;}
 
@@ -41,8 +65,8 @@ this.OrderCount=this.service.ItemCount;
   submitForm=(form)=>
   {
     // console.log(form.value);console.log(form.controls['GrandTotal'].value);console.log(this.OrderItems);
-var newOrder=({CustomerId:form.value.Customer.CustomerID,
-  PMethod:form.value.Payment,
+var newOrder=({CustomerId:this.SelectedCustomer,
+  PMethod:this.SelectedPMethod,
   OrderNo:this.Orderno,
   GTotal:this.GrandTotal,
   OrderItems:this.OrderItems

@@ -8,7 +8,8 @@ const routes: Routes = [
   {path: '',redirectTo:'order', pathMatch:'full'},
   {path:'orders',component: OrdersComponent},
 {path:'order',children:[
-  {path:'',component: OrderComponent},{path:'orders/:id',component: OrderComponent}
+  {path:'',component: OrderComponent},
+  {path:':id',component: OrderComponent}
 ]},
 
 ];

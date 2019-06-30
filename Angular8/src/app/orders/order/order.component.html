@@ -6,9 +6,9 @@
     </div>
     <div class="col-md-6">
         <label for="Customer">Customer:</label>
-      <select class="form-control" id="Customer" name="Customer" ngModel #Customer='ngModel'>
+      <select class="form-control" id="Customer" name="Customer" [(ngModel)]="SelectedCustomer"  >
         <option value="" hidden disabled selected="selected">Please select one...</option>
-        <option *ngFor="let customer of Customers" [ngValue]='customer'>{{customer.Name}}</option>
+        <option *ngFor="let customer of Customers"  [value]='customer.CustomerID'>{{customer.Name}}</option>
     </select>
     </div>
     </div>
@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-md-6">
             <label for="Payment">Payment Method:</label>
-          <select class="form-control" id="Payment" name="Payment" ngModel #Payment='ngModel'>
+          <select class="form-control" id="Payment" name="Payment" [(ngModel)]="SelectedPMethod" >
             <option value="" hidden disabled selected="selected">Please select one...</option>
             <option value='Cash'>Cash</option>
             <option alue='Card'>Card</option>
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-<app-order-items (GrandTotalChanged)="RefreshGrandTotal($event)"></app-order-items>
+<app-order-items *ngIf="ExistingItems" [ExistingOrderItems]="ExistingItems" (GrandTotalChanged)="RefreshGrandTotal($event)"></app-order-items>
 
 
 <div class="w-100">
@@ -49,5 +49,5 @@
   
 </div>
 </form>
-    {{form.value|json}}
+    <!-- {{form.value|json}} -->
 
